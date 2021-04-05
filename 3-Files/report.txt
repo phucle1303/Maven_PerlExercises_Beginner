@@ -1,0 +1,5 @@
+Count:            6
+Total:          126
+Average:         21
+Min:            -17
+Max:             98
