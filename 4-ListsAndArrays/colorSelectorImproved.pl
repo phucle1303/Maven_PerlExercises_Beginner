@@ -4,8 +4,22 @@ use warnings;
 use Getopt::Long qw(GetOptions);
 
 my $color;
-GetOptions("force=s" => \$color) or die "Usage: $0 [--force COLOR]\n";
-my @colors = ("Blue", "Yellow", "Brown", "White");
+my $force;
+my $filename = 'colors.txt';
+GetOptions(
+    "color=s" => \$color,
+    "filename=s" => \$filename,
+    "force" => \$force,
+    ) or die "Usage: $0 [--color COLOR]\n";
+
+my @colors;# = ("Blue", "Yellow", "Brown", "White");
+
+open(my $fh, "<", $filename) or die "Could not open '$filename'\n";
+while (my $line = <$fh>)
+{
+    chomp $line;
+    @colors = (@colors, $line);
+}
 
 if (not defined $color)
 {  
@@ -27,12 +41,12 @@ if (not defined $color)
         exit;
     }
 }
-else8
-{
+elsif (not defined $force)
+{ 
     my $countErr=0;
-    foreach my $i (0..$#colors)
+    foreach my $c (@colors)
     {
-        if ($color ne $colors[$i])
+        if (lc $color ne lc $c) #lc will take lower case version of $color and $c to compare
         {
             $countErr++;
         }
@@ -42,6 +56,7 @@ else8
         print "Bad selection\n";
         exit;
     }
+    
 }
 
 print "The selected color is $color\n";
